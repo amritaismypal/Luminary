@@ -98,7 +98,7 @@ var LZString={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234
 		<div id="init-lacking"><p>Browser lacks capabilities required to play.</p><p>Upgrade or switch to another browser.</p></div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<tw-storydata name="Luminary" startnode="1" creator="Twine" creator-version="2.9.0" format="SugarCube" format-version="2.36.1" ifid="58295410-7570-46B4-99ED-C4587D190CF6" options="" tags="" zoom="1" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">
+	<tw-storydata name="Luminary" startnode="1" creator="Twine" creator-version="2.9.0" format="SugarCube" format-version="2.36.1" ifid="f38b48d6-2033-43f7-bde3-dc001c34e179" options="" tags="" zoom="1" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">
 
 /* CSS Styling Sheet */
 
@@ -137,8 +137,6 @@ body {
   display: inline-block;
   width: 50%;
   color: #F2EEF8;
-  font-family: fantasy;
-  font-size: 20px;
   margin-left: 5%;
   margin-right: 5%;
   z-index: 10;
@@ -173,7 +171,6 @@ body {
 
 #navbar button {
   color: #F2EEF8;
-  font-family: fantasy;
   font-size: 20px;
   background-color: #05081C;
   border-color: #05081C;
@@ -491,8 +488,6 @@ body {
 
 #sidebar button {
   color: #F2EEF8;
-  font-family: fantasy;
-  font-size: 20px;
   background-color: #05081C;
   border-color: #05081C;
   border-radius: 10px;
@@ -536,9 +531,12 @@ body {
 }
 
 #ui-dialog {
-  width: 100%;
+  width: 75%;
   height: auto;
   display: block;
+  position: fixed;
+  top: 50%;
+  left: 50%;
 }
 
 #ui-dialog-titlebar {
@@ -559,8 +557,6 @@ body {
 
 #ui-dialog-body {
   text-transform: uppercase;
-  font-family: fantasy;
-  font-size: 22.5px;
   text-shadow: -1px 1px 0 #000,
                 1px 1px 0 #000,
                 1px -1px 0 #000,
@@ -571,8 +567,6 @@ body {
 
 #ui-dialog button {
   text-transform: uppercase;
-  font-family: fantasy;
-  font-size: 22.5px;
   text-shadow: -1px 1px 0 #000,
                 1px 1px 0 #000,
                 1px -1px 0 #000,
@@ -597,8 +591,6 @@ body {
 
 #game-story {
   width: 70%;
-  font-family: fantasy;
-  font-size: 20px;
   color: #F2EEF8;
   margin-left: 410px;
   margin-right: 5%;
@@ -681,7 +673,6 @@ body {
 #fire button {
   color: #F2EEF8;
   text-decoration: none;
-  font-family: fantasy;
   font-size: 75px;
   background-color: #05081C;
   border-color: #05081C;
@@ -707,6 +698,36 @@ body {
   background-color: #4660DB;
 }
 
+/*source for settings code: https://www.reddit.com/r/twinegames/comments/kpjs0d/comment/ghzewx5/*/
+
+html.Small body {
+  font-size: 18px;
+}
+
+html.Medium body {
+  font-size: 20px;
+}
+
+html.Large body {
+  font-size: 22px;
+}
+
+
+html.Fantasy body {
+  font-family: "Blippo", fantasy, serif;
+}
+
+html.Arial body {
+  font-family: Arial, Helvetica, sans-serif;
+ }
+
+html.Times_New_Roman body {
+  font-family: "Times New Roman", Times, serif;
+}
+
+html.Comic_Sans body {
+  font-family: "Comic Sans", "Comic Sans MS", cursive;
+}
 
 /* End of CSS Styling Sheet */
 
@@ -720,7 +741,70 @@ window.saves = function() {
 
 window.settings = function() {
   UI.settings();
-};</script><tw-tag name="Home-Page" color="none"></tw-tag><tw-passagedata pid="1" name="Home Page" tags="" position="600,250" size="100,100">&lt;div id=&quot;navbar&quot;&gt;Luminary
+};
+
+/*source for settings code: https://www.reddit.com/r/twinegames/comments/kpjs0d/changing_font_size_at_runtime/*/
+
+var textSizeHandler = function () {
+	// cache the jQuery-wrapped <html> element
+	var $html = $("html");
+
+	// remove any existing theme class
+	$html.removeClass("Small Medium Large");
+
+	// switch on the theme name to add the requested theme class
+	switch (settings.textSize) {
+		case "18px":
+			$html.addClass("Small");
+			break;
+		case "20px":
+			$html.addClass("Medium");
+			break;
+		case "22px":
+			$html.addClass("Large");
+			break;
+	}
+};
+
+Setting.addList("textSize", {
+	label    : "Choose a font size",
+	list     : ["18px", "20px", "22px"],
+	onInit   : textSizeHandler,
+	onChange : textSizeHandler,
+	default  : "20px"
+});
+
+var fontHandler = function () {
+	// cache the jQuery-wrapped <html> element
+	var $html = $("html");
+
+	// remove any existing theme class
+	$html.removeClass("Arial Times_New_Roman Comic_Sans");
+
+	// switch on the theme name to add the requested theme class
+	switch (settings.font) {
+		case "Fantasy":
+    		$html.addClass("Fantasy");
+    		break;
+		case "Arial":
+			$html.addClass("Arial");
+			break;
+		case "Times_New_Roman":
+			$html.addClass("Times_New_Roman");
+			break;
+		case "Comic_Sans":
+			$html.addClass("Comic_Sans");
+			break;
+	}
+};
+
+Setting.addList("font", {
+	label    : "Choose a font",
+	list     : ["Fantasy", "Arial", "Times_New_Roman", "Comic_Sans"],
+	onInit   : fontHandler,
+	onChange : fontHandler,
+	default  : "Fantasy"
+});</script><tw-tag name="Home-Page" color="none"></tw-tag><tw-passagedata pid="1" name="Home Page" tags="" position="600,250" size="100,100">&lt;div id=&quot;navbar&quot;&gt;Luminary
 &lt;button type=&quot;button&quot;&gt;[[START YOUR JOURNEY|Background]]&lt;/button&gt;&lt;/div&gt;
 &lt;div id=&quot;main-home&quot;&gt;
 &lt;div id=&quot;description&quot;&gt;&lt;h1&gt;THE WORLD OF LUMINARY&lt;/h1&gt;&lt;h2&gt;&lt;p&gt;LUMINARY is an 18+ story dealing with duty and destiny, gods and mortals, love and hate. You will follow your character through the darkness of night, intrigue of court, and maybe...just maybe, the dawn of a new era.&lt;/p&gt;&lt;/h2&gt;&lt;ul&gt;
@@ -862,7 +946,7 @@ Can you rule the stars? Or will you burn up and die?
 
 There is a darkness in the land, a darkness even the stars cannot hold back. 
 
-It is inside you. 
+It is inside you.
 
 [[Get it out.|Prologue]]
 &lt;/p&gt;&lt;/div&gt;
